@@ -1,16 +1,24 @@
 package com.kite.joco.citieshome1.pojos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 /**
  * Created by Joco on 2015.05.01.. próba
  */
-public class Place {
+public class Place extends SugarRecord<Place>{
 
+    @Expose
     @SerializedName("place name")
     String place_name;
-    double longitude,latitude;
+    @Expose
+    double longitude;
+    @Expose
+    double latitude;
+    @Expose
     String state;
+    @Expose
     @SerializedName("state abbreviation")
     String state_abbreviation;
 

@@ -1,20 +1,26 @@
 package com.kite.joco.citieshome1.pojos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 import java.util.List;
 
 /**
  * Created by Joco on 2015.05.01..
  */
-public class PostCode {
+public class PostCode extends SugarRecord<PostCode> {
 
+    @Expose
     @SerializedName("post code")
     String postcode;
+    @Expose
     String country;
+    @Expose
     @SerializedName("country abbreviation")
     String country_abbreviation;
-    Place place;
+    //@Expose
+    //Place place;
 
     public List<Place> getPlaces() {
         return places;
@@ -24,6 +30,7 @@ public class PostCode {
         this.places = places;
     }
 
+    @Expose
     List<Place> places;
 
     public PostCode() {
@@ -53,13 +60,13 @@ public class PostCode {
         this.country_abbreviation = country_abbreviation;
     }
 
-    public Place getPlace() {
+    /*public Place getPlace() {
         return place;
     }
 
     public void setPlace(Place place) {
         this.place = place;
-    }
+    }*/
 }
 /*
 * "post code": "90210",
