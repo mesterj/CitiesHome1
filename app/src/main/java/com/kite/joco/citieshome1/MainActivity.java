@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.kite.joco.citieshome1.pojos.Lekerni;
 import com.kite.joco.citieshome1.pojos.Place;
 import com.kite.joco.citieshome1.pojos.PostCode;
 import com.kite.joco.citieshome1.retrofit.ZippoClient;
@@ -42,7 +43,7 @@ public class MainActivity extends Activity {
         // Keresés off line módban.
         // Ha itt nincs meg csak akkor kell net.
 
-        String zipcode = etZip.getText().toString();
+        final String zipcode = etZip.getText().toString();
         Log.d(CITIESHOME_DB_TAG," a keresett irsz: "+ zipcode);
         //List<PostCode> existingPostcodeList = PostCode.find(PostCode.class, "postcode = ?", zipcode);
         List<PostCode> existingPostcodeList = Select.from(PostCode.class).where(Condition.prop("postcode").eq(zipcode)).list();
@@ -87,8 +88,11 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void failure(RetrofitError error) {
-
-                    tvKiir.setText(error.getLocalizedMessage());
+                    Log.d(CITIESHOME_DB_TAG,error.getLocalizedMessage());
+                    Lekerni l = new Lekerni();
+                    l.setIrsz(zipcode);
+                    l.save();
+                    //tvKiir.setText("Nincs internet-kapcsolat");
                 }
             });
         }
