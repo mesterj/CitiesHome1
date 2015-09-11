@@ -28,6 +28,13 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+// Ha a lekerni adatok üres akkor vége while...
+        // Ha nincs kapcsolat a szerverrel akkor kilép? Van olyan, hogy nincs kapcsolat?
+
+        // Lekérés menete
+        // Kiszedi a következõ adatot, lekéri, elmenti a helyére, amikor kész (tehát sikeresen lekérte) akkor kitörli a lekerni
+        // táblából, jön a következõ, ha már nincs több (üres a tábla) akkor vége.
+
 
     }
 }
