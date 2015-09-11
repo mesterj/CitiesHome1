@@ -2,5 +2,5 @@
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:isAlwaysSyncable="true"
-    android:allowParallelSync="true"
+    android:allowParallelSyncs="true"
     android:userVisible="true"/>
