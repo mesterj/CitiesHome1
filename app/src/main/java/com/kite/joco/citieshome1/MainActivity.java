@@ -63,45 +63,49 @@ public class MainActivity extends Activity {
         }
         else {
 
-            ZippoClient.get().getByPostalCode("hu", zipcode, new Callback<PostCode>() {
-                @Override
-                public void success(PostCode postCode, Response response) {
-                    irsz = postCode.getPlaces().get(0).getPlace_name();
-                    postCode.save();
-                    Place p = postCode.getPlaces().get(0);
-                    p.save();
-                    Log.d(CITIESHOME_DB_TAG,"Place saved");
-                    List<PostCode> postCodeList = PostCode.listAll(PostCode.class);
-                    List<Place> places = Place.listAll(Place.class);
-                    int placessize = places.size();
-                    int postcodesize = postCodeList.size();
-                    Log.d(CITIESHOME_DB_TAG, " A  PostCode lista elemeinek száma: " + postcodesize);
-                    Log.d(CITIESHOME_DB_TAG, " A  Places lista elemeinek száma: " + placessize);
-                    tvKiir.setText(irsz);
-                    for (PostCode pc:postCodeList){
-                        Log.d(CITIESHOME_DB_TAG, " Postcode id: " + pc.getId() + " country "+ pc.getCountry() + " irsz " + pc.getPostcode());
-                    }
-                    for (Place pl:places){
-                        Log.d(CITIESHOME_DB_TAG, " place id: " + pl.getId()+ " name: "  + pl.getPlace_name());
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d(CITIESHOME_DB_TAG,error.getLocalizedMessage());
-                    Lekerni l = new Lekerni();
-                    l.setIrsz(zipcode);
-                    List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
-                    if (!mindenLekerendo.contains(l)) {
-                        l.save();
-                    }
-                    else{
-                        Log.d(CITIESHOME_DB_TAG,"Már van ilyen keresendő");
+            try {
+                ZippoClient.get().getByPostalCode("hu", zipcode, new Callback<PostCode>() {
+                    @Override
+                    public void success(PostCode postCode, Response response) {
+                        irsz = postCode.getPlaces().get(0).getPlace_name();
+                        postCode.save();
+                        Place p = postCode.getPlaces().get(0);
+                        p.save();
+                        Log.d(CITIESHOME_DB_TAG, "Place saved");
+                        List<PostCode> postCodeList = PostCode.listAll(PostCode.class);
+                        List<Place> places = Place.listAll(Place.class);
+                        int placessize = places.size();
+                        int postcodesize = postCodeList.size();
+                        Log.d(CITIESHOME_DB_TAG, " A  PostCode lista elemeinek száma: " + postcodesize);
+                        Log.d(CITIESHOME_DB_TAG, " A  Places lista elemeinek száma: " + placessize);
+                        tvKiir.setText(irsz);
+                        for (PostCode pc : postCodeList) {
+                            Log.d(CITIESHOME_DB_TAG, " Postcode id: " + pc.getId() + " country " + pc.getCountry() + " irsz " + pc.getPostcode());
+                        }
+                        for (Place pl : places) {
+                            Log.d(CITIESHOME_DB_TAG, " place id: " + pl.getId() + " name: " + pl.getPlace_name());
+                        }
                     }
 
-                    //tvKiir.setText("Nincs internet-kapcsolat");
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d(CITIESHOME_DB_TAG, error.getLocalizedMessage());
+
+
+                        //tvKiir.setText("Nincs internet-kapcsolat");
+                    }
+                });
+            } catch (Exception ex){
+                Lekerni l = new Lekerni();
+                l.setIrsz(zipcode);
+                List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
+                if (!mindenLekerendo.contains(l)) {
+                    l.save();
+                } else {
+                    Log.d(CITIESHOME_DB_TAG, "Már van ilyen keresendő");
                 }
-            });
+                Log.d(CITIESHOME_DB_TAG,"Nem volt net , mentettem");
+            }
         }
     }
 
