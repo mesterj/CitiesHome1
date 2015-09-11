@@ -46,6 +46,7 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
                 ZippoClient.get().getByPostalCode("HU", l.getIrsz(), new Callback<PostCode>() {
                     @Override
                     public void success(PostCode postCode, Response response) {
+                        Log.d("CITIESHOME:SA:ONPS","SUCCESS" + l.getIrsz());
                         postCode.save();
                         Place p = postCode.getPlaces().get(0);
                         p.save();
