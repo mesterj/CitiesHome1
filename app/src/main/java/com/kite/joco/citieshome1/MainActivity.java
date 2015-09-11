@@ -91,7 +91,14 @@ public class MainActivity extends Activity {
                     Log.d(CITIESHOME_DB_TAG,error.getLocalizedMessage());
                     Lekerni l = new Lekerni();
                     l.setIrsz(zipcode);
-                    l.save();
+                    List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
+                    if (!mindenLekerendo.contains(l)) {
+                        l.save();
+                    }
+                    else{
+                        Log.d(CITIESHOME_DB_TAG,"Már van ilyen keresendő");
+                    }
+
                     //tvKiir.setText("Nincs internet-kapcsolat");
                 }
             });

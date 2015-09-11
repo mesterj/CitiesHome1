@@ -16,4 +16,20 @@ public class Lekerni extends SugarRecord<Lekerni> {
     public void setIrsz(String irsz) {
         this.irsz = irsz;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lekerni lekerni = (Lekerni) o;
+
+        return !(irsz != null ? !irsz.equals(lekerni.irsz) : lekerni.irsz != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return irsz != null ? irsz.hashCode() : 0;
+    }
 }
