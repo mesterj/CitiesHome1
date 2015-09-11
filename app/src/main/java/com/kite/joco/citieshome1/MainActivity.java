@@ -50,7 +50,8 @@ public class MainActivity extends Activity {
         if (existingPostcodeList.size() >0 && existingPostcodeList != null ) {
             try {
                 Long placeid = existingPostcodeList.get(0).getId();
-                Place place = Select.from(Place.class).where(Condition.prop("id").eq(placeid)).first();
+                //Place place = Select.from(Place.class).where(Condition.prop("id").eq(placeid)).first();
+                Place place = Place.findById(Place.class,placeid);
                 tvKiir.setText(place.getPlace_name());
                 //tvKiir.setText(existingPostcodeList.get(0).getPlaces().get(0).getPlace_name());
                 Log.d(CITIESHOME_DB_TAG, "Megtaláltam az adatbázisban, nem kellett internetes keresés");
@@ -86,6 +87,7 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void failure(RetrofitError error) {
+
                     tvKiir.setText(error.getLocalizedMessage());
                 }
             });
