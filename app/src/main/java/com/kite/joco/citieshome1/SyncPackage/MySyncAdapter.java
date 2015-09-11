@@ -54,7 +54,7 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("CITIESHOME:SYNCADAPTER:ONPERFORMSYNC","Error"+ error.getLocalizedMessage());
+                        Log.d("CITIESHOME:SA:ONPS","Error"+ error.getLocalizedMessage());
                     }
                 });
             }
