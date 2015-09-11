@@ -3,7 +3,7 @@ package com.kite.joco.citieshome1.pojos;
 import com.orm.SugarRecord;
 
 /**
- * Created by Mester József on 2015.09.11..
+ * Created by Mester JÃ³zsef on 2015.09.11..
  */
 public class Lekerni extends SugarRecord<Lekerni> {
 
