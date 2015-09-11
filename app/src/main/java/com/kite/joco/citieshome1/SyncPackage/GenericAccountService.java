@@ -11,13 +11,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import java.util.UnknownFormatConversionException;
-
 /**
  * Created by Mester József on 2015.09.11..
  */
 public class GenericAccountService extends Service {
 
+    public static final String AUTHORITY = "com.example.android.datasync.provider";
     static final String TAG = "GenericAccountService";
     static final String ACCOUNT_TYPE= "basicsyncaccount";
     public static final String ACCOUNT_NAME= "sync";
