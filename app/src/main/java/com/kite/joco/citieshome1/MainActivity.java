@@ -1,5 +1,7 @@
 package com.kite.joco.citieshome1;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +39,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         tvKiir = (TextView) findViewById(R.id.tvKiir);
         etZip = (EditText) findViewById(R.id.etZip);
+        // Create the account type and default account
+        Account newAccount = new Account("dummyaccount", "com.sportsteamkarma");
+        AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
+// If the account already exists no harm is done but
+// a warning will be logged.
+        accountManager.addAccountExplicitly(newAccount, null, null);
     }
 
     public void onClick(View v){
