@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.example.android.datasync.provider"
+    android:contentAuthority="com.kite.joco.dummyprovider"
     android:accountType="basicsyncaccount"
+    android:syncable="true"
     android:isAlwaysSyncable="true"
     android:allowParallelSyncs="true"
     android:userVisible="true"/>

@@ -3,7 +3,9 @@
     package="com.kite.joco.citieshome1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <uses-permission android:name="android.permission.write_sync_settings"/>
 
     <application
         android:name="com.orm.SugarApp"
@@ -37,12 +39,29 @@
         <service
             android:name=".SyncPackage.SyncIntentService"
             android:exported="false"
-            android:process=":sync">
+            android:process=":sync" >
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter"/>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
         </service>
+
+        <service android:name=".SyncPackage.GenericAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+        </service>
+
+        <provider
+            android:name=".SyncPackage.MyContentProvider"
+            android:authorities="com.kite.joco.dummyprovider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
     </application>
 
 </manifest>
