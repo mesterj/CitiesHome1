@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,7 +54,14 @@ public class MainActivity extends Activity {
         }
         mResolver = getContentResolver();
         ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
-
+        Button btnSync = (Button) findViewById(R.id.btnSync);
+        btnSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(CITIESHOME_DB_TAG," sync started...");
+                ContentResolver.requestSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY);
+            }
+        });
 
     }
 
@@ -109,20 +117,25 @@ public class MainActivity extends Activity {
                     public void failure(RetrofitError error) {
                         Log.d(CITIESHOME_DB_TAG, " Hiba történt a kapcsolat során");//error.getLocalizedMessage());
                         tvKiir.setText("Nincs internet-kapcsolat");
+                        zipment(zipcode);
                     }
                 });
             } catch (Exception ex){
-                Lekerni l = new Lekerni();
-                l.setIrsz(zipcode);
-                List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
-                if (!mindenLekerendo.contains(l)) {
-                    l.save();
-                } else {
-                    Log.d(CITIESHOME_DB_TAG, "Már van ilyen keresendő");
-                }
-                Log.d(CITIESHOME_DB_TAG,"Nem volt net , mentettem");
+                zipment(zipcode);
             }
         }
+    }
+
+    public void zipment(String zipcode){
+        Lekerni l = new Lekerni();
+        l.setIrsz(zipcode);
+        List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
+        if (!mindenLekerendo.contains(l)) {
+            l.save();
+        } else {
+            Log.d(CITIESHOME_DB_TAG, "Már van ilyen keresendő");
+        }
+        Log.d(CITIESHOME_DB_TAG,"Nem volt net , mentettem");
     }
 
     @Override

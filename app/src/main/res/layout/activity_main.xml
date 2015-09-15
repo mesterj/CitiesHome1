@@ -55,4 +55,13 @@
         android:layout_alignLeft="@+id/btnLekér"
         android:layout_alignStart="@+id/btnLekér" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Szinkronizálás"
+        android:id="@+id/btnSync"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/etZip"
+        android:layout_alignEnd="@+id/etZip" />
+
 </RelativeLayout>
