@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.write_sync_settings"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
         android:name="com.orm.SugarApp"
@@ -60,7 +60,8 @@
             android:name=".SyncPackage.MyContentProvider"
             android:authorities="com.kite.joco.dummyprovider"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:syncable="true">
         </provider>
     </application>
 

@@ -3,6 +3,7 @@ package com.kite.joco.citieshome1;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
     String irsz;
     TextView tvKiir;
     EditText etZip;
+    ContentResolver mResolver;
 
 
     @Override
@@ -44,7 +46,15 @@ public class MainActivity extends Activity {
         AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
 // If the account already exists no harm is done but
 // a warning will be logged.
-        accountManager.addAccountExplicitly(myAccount, null, null);
+        if (accountManager.addAccountExplicitly(myAccount,null,null)){
+            Log.d("CITIESHOME:AS:MAC","Made account");
+        } else {
+            Log.d("CITIESHOME:AS:MAC","Error while create account.");
+        }
+        mResolver = getContentResolver();
+        ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
+
+
     }
 
     public void onClick(View v){
@@ -97,10 +107,8 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d(CITIESHOME_DB_TAG, error.getLocalizedMessage());
-
-
-                        //tvKiir.setText("Nincs internet-kapcsolat");
+                        Log.d(CITIESHOME_DB_TAG, " Hiba történt a kapcsolat során");//error.getLocalizedMessage());
+                        tvKiir.setText("Nincs internet-kapcsolat");
                     }
                 });
             } catch (Exception ex){
