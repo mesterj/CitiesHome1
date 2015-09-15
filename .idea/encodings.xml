@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/SyncPackage/GenericAccountService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/SyncPackage/MySyncAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/SyncPackage/SyncIntentService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/pojos/Lekerni.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/pojos/Place.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/kite/joco/citieshome1/retrofit/Api.java" charset="UTF-8" />

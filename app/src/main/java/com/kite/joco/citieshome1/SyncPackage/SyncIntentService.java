@@ -3,11 +3,8 @@ package com.kite.joco.citieshome1.SyncPackage;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
-import android.content.Context;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-
-import java.util.Stack;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

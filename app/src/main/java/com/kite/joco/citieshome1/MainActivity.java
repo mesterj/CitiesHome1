@@ -40,11 +40,11 @@ public class MainActivity extends Activity {
         tvKiir = (TextView) findViewById(R.id.tvKiir);
         etZip = (EditText) findViewById(R.id.etZip);
         // Create the account type and default account
-        Account newAccount = new Account("dummyaccount", "com.sportsteamkarma");
+        Account myAccount = new Account("sync","basicsyncaccount");
         AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
 // If the account already exists no harm is done but
 // a warning will be logged.
-        accountManager.addAccountExplicitly(newAccount, null, null);
+        accountManager.addAccountExplicitly(myAccount, null, null);
     }
 
     public void onClick(View v){
