@@ -58,19 +58,27 @@ public class MainActivity extends Activity {
         }
         mResolver = getContentResolver();
         //ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
-        ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
+        //ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
+        ContentResolver.setSyncAutomatically(myAccount,AUTHORITY,true);
+        ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 120L);
+
         Button btnSync = (Button) findViewById(R.id.btnSync);
         btnSync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(CITIESHOME_DB_TAG, " sync started...");
                 Bundle settingsBundle = new Bundle();
-                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL,true);
-                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 
-                ContentResolver.requestSync(myAccount,AUTHORITY,settingsBundle);
+                ContentResolver.requestSync(myAccount, AUTHORITY, settingsBundle);
             }
         });
+
+       /* Bundle periodicBundle = new Bundle();
+        periodicBundle.putBoolean(ContentResolver.SYNC_EXTRAS_INITIALIZE,true);*/
+
+
 
     }
 
