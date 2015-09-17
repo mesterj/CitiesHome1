@@ -18,8 +18,8 @@ public class GenericAccountService extends Service {
 
     public static final String AUTHORITY = "com.example.android.datasync.provider";
     static final String TAG = "GenericAccountService";
-    static final String ACCOUNT_TYPE= "basicsyncaccount";
-    public static final String ACCOUNT_NAME= "sync";
+    static final String ACCOUNT_TYPE = "basicsyncaccount";
+    public static final String ACCOUNT_NAME = "sync";
     private MyAuthenticar mAuthenticator;
 
     @Nullable
@@ -39,7 +39,6 @@ public class GenericAccountService extends Service {
     }
 
 
-
     public class MyAuthenticar extends AbstractAccountAuthenticator {
 
         public MyAuthenticar(Context context) {
@@ -54,7 +53,7 @@ public class GenericAccountService extends Service {
 
         @Override
         public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-                    return null;
+            return null;
         }
 
         @Override

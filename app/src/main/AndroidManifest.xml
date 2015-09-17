@@ -58,9 +58,8 @@
 
         <provider
             android:name=".SyncPackage.MyContentProvider"
-            android:authorities="com.kite.joco.dummyprovider"
-            android:enabled="true"
-            android:exported="true"
+            android:authorities="com.kite.joco.citieshome1.SyncPackage.provider"
+            android:exported="false"
             android:syncable="true">
         </provider>
     </application>

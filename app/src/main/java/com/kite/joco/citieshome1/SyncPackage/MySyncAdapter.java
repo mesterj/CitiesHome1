@@ -40,6 +40,7 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Log.d("CITIESHOME:SYNCA:","STARTSYNC");
         List<Lekerni> lekerniList = Lekerni.listAll(Lekerni.class);
         if (lekerniList.size()>0 && lekerniList != null){
             for (final Lekerni l: lekerniList) {

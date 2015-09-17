@@ -34,6 +34,10 @@ public class MainActivity extends Activity {
     TextView tvKiir;
     EditText etZip;
     ContentResolver mResolver;
+    public static final String AUTHORITY = "com.kite.joco.citieshome1.SyncPackage.provider";
+    public static final String ACCOUNT_TYPE = "com.kite.joco.citieshome1.SyncPackage";
+    public static final String ACCOUNT = "dummyaccount";
+    Account myAccount;
 
 
     @Override
@@ -43,7 +47,7 @@ public class MainActivity extends Activity {
         tvKiir = (TextView) findViewById(R.id.tvKiir);
         etZip = (EditText) findViewById(R.id.etZip);
         // Create the account type and default account
-        Account myAccount = new Account("sync","basicsyncaccount");
+        myAccount = new Account(ACCOUNT,ACCOUNT_TYPE);
         AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
 // If the account already exists no harm is done but
 // a warning will be logged.
@@ -53,13 +57,18 @@ public class MainActivity extends Activity {
             Log.d("CITIESHOME:AS:MAC","Error while create account.");
         }
         mResolver = getContentResolver();
-        ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
+        //ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
+        ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
         Button btnSync = (Button) findViewById(R.id.btnSync);
         btnSync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(CITIESHOME_DB_TAG," sync started...");
-                ContentResolver.requestSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY);
+                Log.d(CITIESHOME_DB_TAG, " sync started...");
+                Bundle settingsBundle = new Bundle();
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL,true);
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
+
+                ContentResolver.requestSync(myAccount,AUTHORITY,settingsBundle);
             }
         });
 
