@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         //ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
         //ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
         ContentResolver.setSyncAutomatically(myAccount,AUTHORITY,true);
-        ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 120L);
+        ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 12000L);
 
         Button btnSync = (Button) findViewById(R.id.btnSync);
         btnSync.setOnClickListener(new View.OnClickListener() {
