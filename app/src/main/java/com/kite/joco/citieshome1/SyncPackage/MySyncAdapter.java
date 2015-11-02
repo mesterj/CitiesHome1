@@ -42,6 +42,7 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d("CITIESHOME:SYNCA:","STARTSYNC");
         List<Lekerni> lekerniList = Lekerni.listAll(Lekerni.class);
+        Log.d("CITIESHOME:SYNCA:"," lekérni méret: " + lekerniList.size());
         if (lekerniList.size()>0 && lekerniList != null){
             for (final Lekerni l: lekerniList) {
                 ZippoClient.get().getByPostalCode("HU", l.getIrsz(), new Callback<PostCode>() {

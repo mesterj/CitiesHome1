@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General Settings" />
+    <PreferenceScreen
+        android:key="account_settings"
+        android:summary="Sync frequency, notifications , etc."
+        android:title="Account settings">
+        <intent
+            android:action="com.kite.joco.citieshome1.Preferences.ACCOUNT_SETUP"
+            android:targetClass="com.joco.kite.citieshome1.Preferences"
+            android:targetPackage="com.kite.joco" />
+    </PreferenceScreen>
+</PreferenceScreen>

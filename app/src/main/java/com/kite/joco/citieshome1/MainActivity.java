@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
         //ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
         ContentResolver.setSyncAutomatically(myAccount,AUTHORITY,true);
         // for testing 120L or lower recommended
-        ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 120L);
+        ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 1200000L);
 
         Button btnSync = (Button) findViewById(R.id.btnSync);
         btnSync.setOnClickListener(new View.OnClickListener() {
