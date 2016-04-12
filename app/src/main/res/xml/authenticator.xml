@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="com.kite.joco.citieshome1.SyncPackage"
     android:label="Dummy Account"
-    android:icon="@drawable/ic_launcher"
-    android:smallIcon="@drawable/ic_launcher"/>
+    android:icon="@mipmap/ic_launcher"
+    android:smallIcon="@mipmap/ic_launcher"/>
 

@@ -7,7 +7,7 @@ import com.orm.SugarRecord;
 /**
  * Created by Joco on 2015.05.01.. próba
  */
-public class Place extends SugarRecord<Place>{
+public class Place extends SugarRecord{
 
     @Expose
     @SerializedName("place name")

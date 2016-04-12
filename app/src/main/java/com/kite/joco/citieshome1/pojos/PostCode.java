@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Joco on 2015.05.01..
  */
-public class PostCode extends SugarRecord<PostCode> {
+public class PostCode extends SugarRecord {
 
     @Expose
     @SerializedName("post code")

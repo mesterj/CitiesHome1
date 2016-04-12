@@ -5,7 +5,7 @@ import com.orm.SugarRecord;
 /**
  * Created by Mester József on 2015.09.11..
  */
-public class Lekerni extends SugarRecord<Lekerni> {
+public class Lekerni extends SugarRecord {
 
     String irsz;
 
