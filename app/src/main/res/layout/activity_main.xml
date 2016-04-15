@@ -64,4 +64,13 @@
         android:layout_alignRight="@+id/etZip"
         android:layout_alignEnd="@+id/etZip" />
 
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/actvCityname"
+        android:layout_alignTop="@+id/btnLekér"
+        android:layout_toLeftOf="@+id/tvZip"
+        android:layout_toStartOf="@+id/tvZip"
+        android:hint="Város neve" />
+
 </RelativeLayout>

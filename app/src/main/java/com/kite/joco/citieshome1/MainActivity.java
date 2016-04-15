@@ -4,13 +4,16 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.kite.joco.citieshome1.pojos.Lekerni;
@@ -38,6 +41,7 @@ public class MainActivity extends Activity {
     public static final String ACCOUNT_TYPE = "com.kite.joco.citieshome1.SyncPackage";
     public static final String ACCOUNT = "dummyaccount";
     Account myAccount;
+    SimpleCursorAdapter cityAdapter;
 
 
     @Override
@@ -79,8 +83,16 @@ public class MainActivity extends Activity {
        /* Bundle periodicBundle = new Bundle();
         periodicBundle.putBoolean(ContentResolver.SYNC_EXTRAS_INITIALIZE,true);*/
 
+        AutoCompleteTextView actvCity = (AutoCompleteTextView) findViewById(R.id.actvCityname);
 
+        //cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,)
 
+    }
+
+    public Cursor getCityCursor(CharSequence str) {
+        //Select.from()
+        // TODO Ezt kell megcsinálni sugarrecord.getCursor-ral.
+        return null;
     }
 
     public void onClick(View v){
