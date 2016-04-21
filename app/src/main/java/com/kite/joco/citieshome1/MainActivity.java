@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,11 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.kite.joco.citieshome1.pojos.Lekerni;
 import com.kite.joco.citieshome1.pojos.Place;
 import com.kite.joco.citieshome1.pojos.PostCode;
@@ -42,6 +48,11 @@ public class MainActivity extends Activity {
     public static final String ACCOUNT = "dummyaccount";
     Account myAccount;
     SimpleCursorAdapter cityAdapter;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -51,19 +62,19 @@ public class MainActivity extends Activity {
         tvKiir = (TextView) findViewById(R.id.tvKiir);
         etZip = (EditText) findViewById(R.id.etZip);
         // Create the account type and default account
-        myAccount = new Account(ACCOUNT,ACCOUNT_TYPE);
+        myAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
         AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
 // If the account already exists no harm is done but
 // a warning will be logged.
-        if (accountManager.addAccountExplicitly(myAccount,null,null)){
-            Log.d("CITIESHOME:AS:MAC","Made account");
+        if (accountManager.addAccountExplicitly(myAccount, null, null)) {
+            Log.d("CITIESHOME:AS:MAC", "Made account");
         } else {
-            Log.d("CITIESHOME:AS:MAC","Error while create account.");
+            Log.d("CITIESHOME:AS:MAC", "Error while create account.");
         }
         mResolver = getContentResolver();
         //ContentResolver.addPeriodicSync(new Account("sync","basicsyncaccount"),"com.kite.joco.dummyprovider",Bundle.EMPTY,1L);
         //ContentResolver.addPeriodicSync(myAccount,AUTHORITY,Bundle.EMPTY,120L);
-        ContentResolver.setSyncAutomatically(myAccount,AUTHORITY,true);
+        ContentResolver.setSyncAutomatically(myAccount, AUTHORITY, true);
         // for testing 120L or lower recommended
         ContentResolver.addPeriodicSync(myAccount, AUTHORITY, Bundle.EMPTY, 1200000L);
 
@@ -85,39 +96,55 @@ public class MainActivity extends Activity {
 
         AutoCompleteTextView actvCity = (AutoCompleteTextView) findViewById(R.id.actvCityname);
 
-        //cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,)
+        List<Place> places = Select.from(Place.class).list();
 
+        String [] citiesArray = { "PLACENAME", "LONGITUDE", "LATITUDE", "STATE", "STATEABBREVIATION"};
+        int [] toArray = new int[]{android.R.id.text1};
+
+        cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,getCityCursor(),citiesArray,toArray);
+
+        actvCity.setAdapter(cityAdapter);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public Cursor getCityCursor(CharSequence str) {
-        //Select.from()
-        // TODO Ezt kell megcsinálni sugarrecord.getCursor-ral.
-        return null;
+        Cursor citiCursor = Select.from(Place.class).orderBy("place_name").where(Condition.prop("place_name").like(str+"%")).getCursor();
+        return citiCursor;
+        // TODO kisbetű, nagybetű vizsgálat
+        // Ezt kell megcsinálni sugarrecord.getCursor-ral.
+        // Ha a select-tel létrehozott halmazra csinálom a cursort akkor így nem kell megadni a feltételeket, mert azokat
+        // már a select-ben megadtam
     }
 
-    public void onClick(View v){
+    public Cursor getCityCursor(){
+        Cursor citiCursor = Select.from(Place.class).getCursor();
+        return citiCursor;
+
+    }
+
+    public void onClick(View v) {
         // Keresés off line módban.
         // Ha itt nincs meg csak akkor kell net.
 
         final String zipcode = etZip.getText().toString();
-        Log.d(CITIESHOME_DB_TAG," a keresett irsz: "+ zipcode);
+        Log.d(CITIESHOME_DB_TAG, " a keresett irsz: " + zipcode);
         //List<PostCode> existingPostcodeList = PostCode.find(PostCode.class, "postcode = ?", zipcode);
         List<PostCode> existingPostcodeList = Select.from(PostCode.class).where(Condition.prop("postcode").eq(zipcode)).list();
         //Log.d(CITIESHOME_DB_TAG," ujfajta select eredménye: "+ nowhasPostcode.size());
-        if (existingPostcodeList.size() >0 && existingPostcodeList != null ) {
+        if (existingPostcodeList.size() > 0 && existingPostcodeList != null) {
             try {
                 Long placeid = existingPostcodeList.get(0).getId();
                 //Place place = Select.from(Place.class).where(Condition.prop("id").eq(placeid)).first();
-                Place place = Place.findById(Place.class,placeid);
+                Place place = Place.findById(Place.class, placeid);
                 tvKiir.setText(place.getPlace_name());
                 //tvKiir.setText(existingPostcodeList.get(0).getPlaces().get(0).getPlace_name());
                 Log.d(CITIESHOME_DB_TAG, "Megtaláltam az adatbázisban, nem kellett internetes keresés");
+            } catch (Exception ex) {
+                Log.d(CITIESHOME_DB_TAG, " error : " + ex.getLocalizedMessage());
             }
-            catch (Exception ex){
-                Log.d(CITIESHOME_DB_TAG," error : " + ex.getLocalizedMessage());
-            }
-        }
-        else {
+        } else {
 
             try {
                 ZippoClient.get().getByPostalCode("hu", zipcode, new Callback<PostCode>() {
@@ -150,13 +177,13 @@ public class MainActivity extends Activity {
                         zipment(zipcode);
                     }
                 });
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 zipment(zipcode);
             }
         }
     }
 
-    public void zipment(String zipcode){
+    public void zipment(String zipcode) {
         Lekerni l = new Lekerni();
         l.setIrsz(zipcode);
         List<Lekerni> mindenLekerendo = Lekerni.listAll(Lekerni.class);
@@ -165,7 +192,7 @@ public class MainActivity extends Activity {
         } else {
             Log.d(CITIESHOME_DB_TAG, "Már van ilyen keresendő");
         }
-        Log.d(CITIESHOME_DB_TAG,"Nem volt net , mentettem");
+        Log.d(CITIESHOME_DB_TAG, "Nem volt net , mentettem");
     }
 
     @Override
@@ -188,5 +215,45 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.kite.joco.citieshome1/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.kite.joco.citieshome1/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
