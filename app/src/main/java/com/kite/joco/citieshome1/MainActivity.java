@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -101,16 +102,36 @@ public class MainActivity extends Activity {
         String [] citiesArray = { "PLACENAME", "LONGITUDE", "LATITUDE", "STATE", "STATEABBREVIATION"};
         int [] toArray = new int[]{android.R.id.text1};
 
-        cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,getCityCursor(),citiesArray,toArray);
+        //cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,getCityCursor(),citiesArray,toArray);
 
+        cityAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,null,citiesArray,toArray);
         actvCity.setAdapter(cityAdapter);
+
+        cityAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence charSequence) {
+                return getCityCursor(charSequence);
+            }
+        });
+
+        cityAdapter.setCursorToStringConverter(new SimpleCursorAdapter.CursorToStringConverter() {
+            @Override
+            public CharSequence convertToString(Cursor cursor) {
+                //int j = cursor.getColumnIndex("PLACENAME");
+                int j = cursor.getColumnIndex("LONGITUDE");
+                return cursor.getString(j);
+            }
+        });
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public Cursor getCityCursor(CharSequence str) {
-        Cursor citiCursor = Select.from(Place.class).orderBy("place_name").where(Condition.prop("place_name").like(str+"%")).getCursor();
+        Cursor citiCursor = Select.from(Place.class).orderBy("PLACENAME").where(Condition.prop("PLACENAME").like(str+"%")).getCursor();
         return citiCursor;
         // TODO kisbetű, nagybetű vizsgálat
         // Ezt kell megcsinálni sugarrecord.getCursor-ral.
